@@ -1,0 +1,2249 @@
+--------------------------------------------------
+--SREALITY---------- HOTOVO VÈ MÌST FINAL_ADRESA
+--------------------------------------------------
+CREATE OR REPLACE TABLE OUT_SREALITY AS
+ select
+"id"::text(20) as "id",
+"createdAt"::date as "createdAt",
+EXTRACT(YEAR,"createdAt"::date) as "Year",
+EXTRACT(MONTH,"createdAt"::date) as "Month",
+to_date("Year"||'-'||"Month"||'-'||01) as "Mesice",
+to_date("Year"||'-'||01||'-'||01) as "Rok",
+dayname("createdAt"::date) as "Den_v_tydnu",
+"data_offerType" ::text(20) as "data_offerType",
+"data_type" ::text(20) as "data_type",
+"data_ownership" ::text(20) as "data_ownership",
+"data_subtype"::text(20) as "data_subtype",
+
+"data_arrangement"::text(20) as "data_arrangement",
+CASE
+  WHEN "data_livingArea" ='' THEN 0
+  ELSE "data_livingArea"
+ END AS "data_livingArea",
+CASE
+  WHEN "data_landArea"='' THEN 0
+  ELSE "data_landArea"
+ END AS "data_landArea",
+CASE
+  WHEN "data_price" ='' THEN 0
+  ELSE "data_price"
+ END AS "data_price",
+"data_priceCurrency"::text(20) as "data_priceCurrency",
+"data_priceType"::text(20) as "data_priceType",
+"data_buildingType"::text(20) as "data_buildingType",
+ TRY_TO_TIMESTAMP("markAsDeadAt") AS "markAsDeadAt_final",    
+extract(YEAR,"markAsDeadAt_final") as "Year1",
+extract(MONTH,"markAsDeadAt_final") as "Month1",
+to_date("Year1"||'-'||"Month1"||'-'||01) as "Mesice_ukonceno",
+to_date("Year1"||'-'||01||'-'||01) as "Rok_ukonceno",
+datediff(day,"createdAt","markAsDeadAt_final") as datediff,
+"data_url"::text(5000) as "data_url",
+"data_localUniqueId" ::text(5000) as "data_localUniqueId",
+"data_title"::text(200) as "data_title",
+"data_countryCode"::text(20) as "data_countryCode",
+"data_city"::text(200) as "data_city",
+"data_district"::text(100) as "data_district",
+"data_address"::text(200) as "data_adress",
+---------------------------------
+case 
+when "data_city" ILIKE '%kladno%' then 'Kladno'
+when "data_city" ILIKE '%rakovnik%' then 'Rakovník'
+
+when "data_city" ILIKE '%kralupy%' then  'Kralupy nad Vltavou'
+     when "data_city" ILIKE '%vyskov%'then  'Vıškov'
+when "data_city" ILIKE '%decin%' then  'Dìèín'
+     when "data_city" ILIKE '%frıdek%' then  'Frıdek-Místek'
+when "data_city" ILIKE '%breclav%' then  'Bøeclav'
+when "data_city" ILIKE '%budejovic%' then  'Èeské Budìjovice'
+     when"data_city" ILIKE '%prah%' then 'Hlavní mìsto Praha'
+    when "data_city" ILIKE '%Brn%' then  'Brno-mìsto'
+    when "data_city" ILIKE '%jihlav%' then  'Jihlava'
+    when "data_city" ILIKE '%ostrava%' then  'Ostrava'
+    when "data_city" ILIKE '%hradec%' then  'Hradec Králové'
+    when "data_city" ILIKE '%benesov%' then  'Benešov'
+    when "data_city" ILIKE '%beroun%' then  'Beroun'
+    when "data_city" ILIKE '%pisek%' then  'Písek'
+    when "data_city" ILIKE '%plzen%' then  'Plzeò-mìsto'
+    when "data_city" ILIKE '%karlovy%' then  'Karlovy Vary'
+    when "data_city" ILIKE '%zlin%' then  'Zlín'
+    when"data_city"	ILIKE '%Babice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Baš%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Borek%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Boøanovice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Brandıs%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Brázdim%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Bøezí%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Èelákovice (pou)	%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Èerné Vodìrady	%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Èestlice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Dobroèovice	%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Dobøejovice	%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Doubek%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Døevèice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Døísy%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Herink%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Hlavenec%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Horoušany%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Hovorèovice	%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Hrusice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Husinec%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Jenštejn%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Jevany%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Jirny%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Kalištì	%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Kamenice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Káranı%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Klecany%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Klíèany%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Klokoèná%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Konìtopy%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Konojedy%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Kostelec nad Èernımi lesy%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Kostelec u Køíkù%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Kostelní Hlavno	%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Kozojedy%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Køenek%'	then 'Praha-vıchod'	
+				
+when"data_city"	ILIKE '%Køenice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Køíkovı Újezdec%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Kunice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Kvìtnice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Láznì Toušeò%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Lhota%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Líbeznice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Louòovice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Máslovice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Mìšice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Mirošovice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Mnichovice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%fModletice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Mochov%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Mratín%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Mukaøov%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Nehvizdy%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Nová Ves%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Novı Vestec%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Nuèice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Nupaky%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Odolena Voda%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Oleška%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Ondøejov%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Oplany%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Panenské Bøeany'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Pìtihosty%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Petøíkov%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Podolanka%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Polerady%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Popovièky%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Prusice	%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Pøedboj	%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Pøezletice	%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Radìjovice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Radonice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Øíèany%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Sedlec%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Senohraby%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Sibøina	%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Sluhy%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Sluštice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Stranèice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Struhaøov%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Støíbrná Skalice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Sudovo Hlavno%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Sulice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Svémyslice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Svìtice	%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Svojetice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Šestajovice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Škvorec%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Štíhlice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Tehov%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Tehovec%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Úvaly%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Veleò%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Veliká Ves%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Velké Popovice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Vìtrušice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Vlkanèice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Vodochody%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Všestary%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Vyšehoøovice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Vıerky%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Vylovka%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Zápy%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Záryby%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Zdiby%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Zeleneè%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Zlatá%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Zlonín%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Zvánovice%'	then 'Praha-vıchod'	
+    --praha zapad
+    when"data_city"	ILIKE '%Bojanovice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Bratøínov%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Oleško%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Buš%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Èernolice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Èernošice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Èervenı Újezd%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Èíèovice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Èisovice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Davle%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Dobrovíz%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Dobøíè%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Dobøichovice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Dolní Bøeany%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Drahelèice	%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Holubice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Horomìøice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Hostivice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Hradištko%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Hvozdnice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Choteè%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Chrášany%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Chınì%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Chınice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Jeneè%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Jesenice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Jílové u Prahy%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Jílovištì%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Jinoèany%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Kamennı Pøívoz%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Karlík%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Klínec%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Knìeves%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Kosoø%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Kytín%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Lety%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Libèice nad Vltavou	%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Libeø%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Lichoceves%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Líšnice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Mìchenice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Mníšek pod Brdy%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Nuèice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Ohrobec%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Okoø%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Okrouhlo%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Oøech%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Petrov%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Pohoøí%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Prùhonice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Psáry%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Ptice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Roblín%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Roztoky%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Rudná%'then 'Praha-západ'
+when"data_city"	ILIKE '%Øevnice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Øitka%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Slapy%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Statenice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Støedokluky%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Svrkynì%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Štìchovice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Tachlovice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Trnová%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Tøebotov%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Tuchomìøice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Tursko%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Úholièky%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Úhonice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Únìtice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Velké Pøílepy%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Vestec%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Vonoklasy%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Vrané nad Vltavou%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Všenory%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Zahoøany%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Zbuzany%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Zlatníky%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Zvole%'	then 'Praha-západ'																																																								
+when "data_city" ILIKE '%znojm%' then  'Znojmo'
+    when "data_city" iLIKE '%hradistsko%' then  'Hradištsko'
+    when "data_city" ILIKE '%olesko%' then  'Oleško'
+    when "data_city" ILIKE '%pardub%' then  'Pardubice'
+    when "data_city" ILIKE '%cheb%' then  'Cheb'
+     when "data_city" ILIKE '%tabor%' then  'Tábor'
+     when "data_city" ILIKE '%teplic%' then  'Teplice'
+when "data_city" ILIKE '%broumov%' then  'Hradec Králové'
+     when "data_city" iLIKE '%bruntal%' then  'Bruntál'
+when"data_city"	ILIKE '%bøezinìves%'	then 'Hlavní mìsto Praha'	
+when"data_city" ILIKE '%kolovraty%' then 'Hlavní mìsto Praha'
+when"data_city" ILIKE '%pocernice%' then 'Hlavní mìsto Praha'
+when"data_city" ILIKE '%terezin%' then 'Litomìøice'
+when"data_city" ILIKE '%most%' then 'Most'
+when"data_city" ILIKE '%olomouc%' then 'Olomouc'
+when"data_city" ILIKE '%kutn%' then 'Kutná Hora'
+when "data_city" iLIKE '%spanel%' then  'zahranièí'
+when "data_city" iLIKE '%chorvat%' then  'zahranièí'
+when "data_city" iLIKE '%ital%' then  'zahranièí'
+when "data_city" iLIKE '%recko%'then  'zahranièí'
+when "data_city" iLIKE '%slovensko%'then  'zahranièí'
+when "data_city" iLIKE '%turecko%'then  'zahranièí'
+when "data_city" iLIKE '%spojene staty%'then  'zahranièí'
+when "data_city" iLIKE '%francie%'then  'zahranièí'
+when "data_city" iLIKE '%rakousko%'then  'zahranièí'
+when "data_city" iLIKE '%polsko%'then  'zahranièí'
+when "data_city" iLIKE '%nemecko%'then  'zahranièí'
+when "data_city" iLIKE '%nizozemsko%'then  'zahranièí'
+when "data_city" iLIKE '%ukrajina%'then  'zahranièí'
+when "data_city" iLIKE '%bulharsko%'then  'zahranièí'
+when "data_city" iLIKE '%kapverdy%'then  'zahranièí'
+when "data_city" iLIKE '%zatec%'then  'Louny'
+when "data_city" iLIKE '%hranice%'then  'Pøerov'
+when "data_city" iLIKE '%milovice%'then  'Nymburk'
+when "data_city" iLIKE '%mikulov%'then  'Bøeclav'
+when "data_city" iLIKE '%chodov%'then  'Hlavní mìsto Praha'
+when "data_city" iLIKE '%Petøvald%'then  'Karviná'
+when "data_city" iLIKE '%Kyjov%'then  'Hodonín'
+when "data_city" iLIKE '%Hlinsko%'then  'Chrudim'
+when "data_city" iLIKE '%Rosice%'then  'Brno-venkov'
+when "data_city" iLIKE '%Planá%'then  'Tachov'
+when "data_city" iLIKE '%Šlapanice%'then  'Brno-venkov'
+when "data_city" iLIKE '%Hoøice%'then  'Hradec Králové'
+
+
+when "data_city" iLIKE '%susice%'then  'Klatovy'
+when "data_city" iLIKE '%Mohelnice%'then  'Šumperk'
+when "data_city" iLIKE '%Doksy%'then  'Èeská Lípa'
+when "data_city" iLIKE '%moravany%'then  'Pardubice'
+when "data_city" iLIKE '%Pohoøelice%'then  'Brno-venkov'
+when "data_city" iLIKE '%Kunovice%'then  'Uherské Hradištì'
+when "data_city" iLIKE '%Dobøany%'then  'Plzeò-jih'
+when "data_city" iLIKE '%Adamov%'then  'Blansko'
+when "data_city" iLIKE '%Kravaøe%'then  'Opava'
+when "data_city" iLIKE '%Osek%'then  'Teplice'
+else "data_city"
+end as "data_city2",
+     
+     
+case when"data_adress" ILIKE '%prah%' then 'Hlavní mìsto Praha'
+when"data_adress" ILIKE '%kolovraty%' then 'Hlavní mìsto Praha'
+when"data_adress" ILIKE '%pocernice%' then 'Hlavní mìsto Praha'
+when"data_adress" ILIKE '%terezin%' then 'Litomìøice'
+when"data_adress" ILIKE '%most%' then 'Most'
+when"data_adress" ILIKE '%olomouc%' then 'Olomouc'
+when"data_adress" ILIKE '%kutn%' then 'Kutná Hora'
+when"data_adress"	ILIKE '%bøezinìves%'	then 'Hlavní mìsto Praha'	
+when "data_adress" ILIKE '%rakovnik%' then 'Rakovník'
+when "data_adress" ILIKE '%plzen%' then  'Plzeò-mìsto'
+when "data_adress" ILIKE '%zlin%' then  'Zlín'
+when "data_adress" iLIKE '%teplic%' then  'Teplice'
+when "data_adress" ILIKE '%karlovy%' then  'Karlovy Vary'
+when "data_adress" ILIKE '%tabor%' then  'Tábor'
+when "data_city" ILIKE '%budejovic%' then  'Èeské Budìjovice'
+when "data_adress" ILIKE '%beroun%' then  'Beroun'
+when "data_adress" ILIKE '%vyskov%'then  'Vıškov'
+     when "data_adress" ILIKE '%znojm%' then  'Znojmo'
+     when "data_adress" ILIKE '%hradec%' then  'Hradec Králové'
+    when "data_adress" ILIKE '%pisek%' then  'Písek'
+    when "data_adress" ILIKE '%hradistsko%' then  'Hradištsko'
+when "data_adress" ILIKE '%jihlav%' then  'Jihlava'
+when "data_adress" ILIKE '%decin%' then  'Dìèín'
+when "data_adress" ILIKE '%breclav%' then  'Bøeclav'
+when "data_adress" ILIKE '%pardub%' then  'Pardubice'
+  when "data_adress" ILIKE '%kladno%' then  'Kladno'
+    when "data_adress" ILIKE '%benesov%' then  'Benešov'
+    when "data_adress" ILIKE '%cheb%' then  'Cheb'
+when "data_adress" ILIKE '%Brn%' then  'Brno-mìsto'
+     when "data_adress" ILIKE '%kralupy%' then  'Kralupy nad Vltavou'
+     when "data_adress" ILIKE '%ostrava%' then  'Ostrava'
+     when "data_adress" ILIKE '%olesko%' then  'Oleško'
+     when "data_adress" ILIKE '%frıdek%' then  'Frıdek-Místek'
+     when"data_adress"	ILIKE '%Babice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Baš%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Borek%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Boøanovice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Brandıs%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Brázdim	%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Bøezí%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Èelákovice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Èerné Vodìrady%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Èestlice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Dobroèovice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Dobøejovice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Doubek%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Døevèice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Døísy%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Herink%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Hlavenec%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Horoušany%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Hovorèovice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Hrusice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Husinec%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Jenštejn%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Jevany%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Jirny%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Kalištì	%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Kamenice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Káranı%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Klecany%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Klíèany%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Klokoèná%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Konìtopy%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Konojedy%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Kostelec nad Èernımi lesy%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Kostelec u Køíkù%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Kostelní Hlavno%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Kozojedy%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Køenek%'	then 'Praha-vıchod'
+				
+when"data_adress"	ILIKE '%Køenice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Køíkovı Újezdec%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Kunice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Kvìtnice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Láznì Toušeò%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Lhota%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Líbeznice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Louòovice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Máslovice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Mìšice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Mirošovice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Mnichovice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Modletice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Mochov%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Mratín%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Mukaøov%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Nehvizdy%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Nová Ves%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Novı Vestec%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Nuèice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Nupaky%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Odolena Voda%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Oleška%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Ondøejov%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Oplany%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Panenské Bøeany%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Pìtihosty%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Petøíkov%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Podolanka%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Polerady%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Popovièky%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Prusice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Pøedboj%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Pøezletice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Radìjovice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Radonice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Øíèany%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Sedlec%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Senohraby%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Sibøina	%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Sluhy%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Sluštice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Stranèice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Struhaøov%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Støíbrná Skalice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Sudovo Hlavno%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Sulice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Svémyslice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Svìtice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Svojetice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Šestajovice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Škvorec%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Štíhlice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Tehov%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Tehovec%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Úvaly%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Veleò%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Veliká Ves%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Velké Popovice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Vìtrušice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Vlkanèice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Vodochody%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Všestary%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Vyšehoøovice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Vıerky%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Vylovka%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Zápy%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Záryby%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Zdiby%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Zeleneè%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Zlatá%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Zlonín%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Zvánovice%'	then 'Praha-vıchod'
+     
+
+--zapad
+   --praha zapad
+    when"data_adress"	ILIKE '%Bojanovice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Bratøínov%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Oleško%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Buš%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Èernolice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Èernošice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Èervenı Újezd%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Èíèovice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Èisovice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Davle%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Dobrovíz%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Dobøíè%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Dobøichovice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Dolní Bøeany%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Drahelèice	%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Holubice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Horomìøice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Hostivice%'	then 'Praha-západ'
+when"data_adress"ILIKE '%Hradištko%'	then 'Praha-západ'
+when"data_adress"ILIKE '%Hvozdnice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Choteè%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Chrášany%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Chınì%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Chınice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Jeneè%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Jesenice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Jílové u Prahy%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Jílovištì%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Jinoèany%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Kamennı Pøívoz%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Karlík%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Klínec%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Knìeves	%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Kosoø	%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Kytín	%'	then 'Praha-západ'
+when"data_adress"ILIKE '%Lety%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Libèice nad Vltavou	%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Libeø%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Lichoceves%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Líšnice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Mìchenice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Mníšek pod Brdy%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Nuèice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Ohrobec%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Okoø%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Okrouhlo%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Oøech%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Petrov%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Pohoøí%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Prùhonice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Psáry%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Ptice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Roblín%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Roztoky%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Rudná%'then 'Praha-západ'
+when"data_adress"	ILIKE '%Øevnice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Øitka%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Slapy%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Statenice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Støedokluky%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Svrkynì%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Štìchovice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Tachlovice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Trnová%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Tøebotov%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Tuchomìøice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Tursko%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Úholièky%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Úhonice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Únìtice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Velké Pøílepy%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Vestec%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Vonoklasy%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Vrané nad Vltavou%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Všenory%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Zahoøany%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Zbuzany%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Zlatníky%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Zvole	%'	then 'Praha-západ'
+when "data_adress" iLIKE '%broumov%' then  'Hradec Králové'
+when "data_adress" iLIKE '%bruntal%' then  'Bruntál'
+when "data_adress" iLIKE '%spanel%' then  'zahranièí'
+when "data_adress" iLIKE '%chorvat%' then  'zahranièí'
+when "data_adress" iLIKE '%ital%' then  'zahranièí'
+when "data_adress" iLIKE '%recko%'then  'zahranièí'
+when "data_adress" iLIKE '%slovensko%'then  'zahranièí'
+when "data_adress" iLIKE '%turecko%'then  'zahranièí'
+when "data_adress" iLIKE '%spojene staty%'then  'zahranièí'
+when "data_adress" iLIKE '%francie%'then  'zahranièí'
+when "data_adress" iLIKE '%rakousko%'then  'zahranièí'
+when "data_adress" iLIKE '%polsko%'then  'zahranièí'
+when "data_adress" iLIKE '%nemecko%'then  'zahranièí'
+when "data_adress" iLIKE '%nizozemsko%'then  'zahranièí'
+when "data_adress" iLIKE '%kapverdy%'then  'zahranièí'
+
+when "data_adress" iLIKE '%ukrajina%'then  'zahranièí'
+when "data_adress" iLIKE '%bulharsko%'then  'zahranièí'
+--
+when "data_adress" iLIKE '%zatec%'then  'Louny'
+when "data_adress" iLIKE '%hranice%'then  'Pøerov'
+when "data_adress" iLIKE '%milovice%'then  'Nymburk'
+when "data_adress" iLIKE '%mikulov%'then  'Bøeclav'
+when "data_adress" iLIKE '%chodov%'then  'Hlavní mìsto Praha'
+when "data_adress" iLIKE '%Petøvald%'then  'Karviná'
+when "data_adress" iLIKE '%Kyjov%'then  'Hodonín'
+when "data_adress" iLIKE '%Hlinsko%'then  'Chrudim'
+when "data_adress" iLIKE '%Rosice%'then  'Brno-venkov'
+when "data_adress" iLIKE '%Planá%'then  'Tachov'
+when "data_adress" iLIKE '%Šlapanice%'then  'Brno-venkov'
+when "data_adress" iLIKE '%Hoøice%'then  'Hradec Králové'
+--
+when "data_adress" iLIKE '%susice%'then  'Klatovy'
+when "data_adress" iLIKE '%Mohelnice%'then  'Šumperk'
+when "data_adress" iLIKE '%Doksy%'then  'Èeská Lípa'
+when "data_adress" iLIKE '%moravany%'then  'Pardubice'
+when "data_adress" iLIKE '%Pohoøelice%'then  'Brno-venkov'
+when "data_adress" iLIKE '%Kunovice%'then  'Uherské Hradištì'
+when "data_adress" iLIKE '%Dobøany%'then  'Plzeò-jih'
+when "data_adress" iLIKE '%Adamov%'then  'Blansko'
+when "data_adress" iLIKE '%Kravaøe%'then  'Opava'
+when "data_adress" iLIKE '%Osek%'then  'Teplice'
+
+else "data_adress" 
+     end as "data_adress2",
+
+Case 
+when "data_district"='' then "data_city2" 
+else "data_district"
+end as "D4",
+
+Case 
+when "D4" ='' then "data_adress2"
+else "D4"
+END AS "final_adresa", --finalni adresa po upravach 
+
+---------------------------------
+"data_gpsCoordType"::text(100) as "data_gpsCoordType",
+"data_description"::text(5000) as "data_description",
+"data_propertyState"::text(100) as "data_propertyState",
+CASE
+ WHEN "data_gpsCoord_lat" ='' THEN 0
+ ELSE "data_gpsCoord_lat"
+END AS "data_gpsCoord_lat",
+CASE
+  WHEN "data_gpsCoord_lon" = '' THEN 0
+  ELSE "data_gpsCoord_lon"
+ END AS "data_gpsCoord_lon"
+
+from "data_sreality" 
+
+WHERE "data_type"='apartment' OR "data_type"= 'house'
+
+ORDER BY "createdAt"desc;
+
+CREATE OR REPLACE TABLE OUT_SREALITY_final AS
+ select
+"id"::text(20) as "id",
+"createdAt"::date as "createdAt",
+"markAsDeadAt_final"::date as "markAsDeadAt",
+"Mesice":: date as "Mesice",
+"Rok"::date as "Rok",
+"Mesice_ukonceno"::date as "Mesice_ukonceno",
+"Rok_ukonceno":: date as "Rok_ukonceno",
+datediff::int as "Datediff",
+"Den_v_tydnu"::text(10) as "Den_v_tydnu",
+"data_offerType" ::text(20) as "data_offerType",
+"data_type" ::text(20) as "data_type",
+"data_ownership" ::text(20) as "data_ownership",
+"data_subtype"::text(20) as "data_subtype",
+"data_arrangement"::text(20) as "data_arrangement",
+"data_livingArea"::int as "data_livingArea",
+"data_landArea"::int as "data_landArea",
+"data_price"::int as "data_price",
+"data_priceCurrency"::text(20) as "data_priceCurrency",
+"data_priceType"::text(20) as "data_priceType",
+"data_countryCode"::text(20) as "data_countryCode",
+"data_district"::text(100) as "data_district",
+"final_adresa"::text(100) as "final_adresa" --finalni adresa po upravach 
+
+
+from OUT_SREALITY 
+
+WHERE "data_type"='apartment' OR "data_type"= 'house'
+
+ORDER BY "createdAt"desc;
+
+---------------------------------------------------------
+--BEZREALITKY-- HOTOVO VÈ FINAL_ADRESA
+---------------------------------------------------------
+CREATE OR REPLACE TABLE OUT_BEZREALITKY AS
+ select
+"id"::text(100) as "id",
+"createdAt"::date as "createdAt",
+EXTRACT(YEAR,"createdAt"::date) as "Year",
+EXTRACT(MONTH,"createdAt"::date) as "Month",
+to_date("Year"||'-'||"Month"||'-'||01) as "Mesice",
+to_date("Year"||'-'||01||'-'||01) as "Rok",
+dayname("createdAt"::date) as "Den_v_tydnu",
+"data_offerType" ::text(100) as "data_offerType",
+"data_type" ::text(100) as "data_type",
+"data_ownership" ::text(100) as "data_ownership",
+"data_subtype"::text(100) as "data_subtype",
+"data_arrangement"::text(100) as "data_arrangement",
+CASE
+  WHEN "data_livingArea" ='' THEN 0
+  ELSE "data_livingArea"
+ END AS "data_livingArea",
+CASE
+  WHEN "data_price" ='' THEN 0
+  WHEN "data_price" > 200000000 THEN 0
+  ELSE "data_price"
+ END AS "data_price",
+"data_priceCurrency"::text as "data_priceCurrency",
+"data_priceType"::text as "data_priceType",
+"data_buildingType"::text(100) as "data_buildingType",
+ TRY_TO_TIMESTAMP("markAsDeadAt") AS "markAsDeadAt_final", 
+extract(YEAR,"markAsDeadAt_final") as "Year1",
+extract(MONTH,"markAsDeadAt_final") as "Month1",
+to_date("Year1"||'-'||"Month1"||'-'||01) as "Mesice_ukonceno",
+to_date("Year1"||'-'||01||'-'||01) as "Rok_ukonceno",
+datediff(day,"createdAt","markAsDeadAt_final") as datediff,
+"data_url"::text as "data_url",
+"data_localUniqueId" ::text(100) as "data_localUniqueId",
+LEFT("data_title",500)::text(500) as "data_title",
+"data_countryCode"::text(100) as "data_countryCode",
+"data_city"::text(100) as "data_city",
+"data_district"::text as "data_district",
+LEFT("data_address",100)::text(100) as "data_adress",
+case 
+when "data_city" ILIKE '%kladno%' then 'Kladno'
+when "data_city" ILIKE '%rakovnik%' then 'Rakovník'
+
+when "data_city" ILIKE '%kralupy%' then  'Kralupy nad Vltavou'
+     when "data_city" ILIKE '%vyskov%'then  'Vıškov'
+when "data_city" ILIKE '%decin%' then  'Dìèín'
+     when "data_city" ILIKE '%frıdek%' then  'Frıdek-Místek'
+when "data_city" ILIKE '%breclav%' then  'Bøeclav'
+when "data_city" ILIKE '%budejovic%' then  'Èeské Budìjovice'
+     when"data_city" ILIKE '%prah%' then 'Hlavní mìsto Praha'
+    when "data_city" ILIKE '%Brn%' then  'Brno-mìsto'
+    when "data_city" ILIKE '%jihlav%' then  'Jihlava'
+    when "data_city" ILIKE '%ostrava%' then  'Ostrava'
+    when "data_city" ILIKE '%hradec%' then  'Hradec Králové'
+    when "data_city" ILIKE '%benesov%' then  'Benešov'
+    when "data_city" ILIKE '%beroun%' then  'Beroun'
+    when "data_city" ILIKE '%pisek%' then  'Písek'
+    when "data_city" ILIKE '%plzen%' then  'Plzeò-mìsto'
+    when "data_city" ILIKE '%karlovy%' then  'Karlovy Vary'
+    when "data_city" ILIKE '%zlin%' then  'Zlín'
+    when"data_city"	ILIKE '%Babice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Baš%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Borek%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Boøanovice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Brandıs%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Brázdim%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Bøezí%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Èelákovice (pou)	%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Èerné Vodìrady	%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Èestlice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Dobroèovice	%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Dobøejovice	%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Doubek%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Døevèice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Døísy%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Herink%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Hlavenec%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Horoušany%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Hovorèovice	%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Hrusice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Husinec%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Jenštejn%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Jevany%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Jirny%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Kalištì	%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Kamenice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Káranı%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Klecany%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Klíèany%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Klokoèná%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Konìtopy%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Konojedy%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Kostelec nad Èernımi lesy%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Kostelec u Køíkù%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Kostelní Hlavno%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Kozojedy%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Køenek%'	then 'Praha-vıchod'	
+									
+when"data_city"	ILIKE '%Køenice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Køíkovı Újezdec%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Kunice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Kvìtnice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Láznì Toušeò%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Lhota%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Líbeznice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Louòovice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Máslovice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Mìšice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Mirošovice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Mnichovice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%fModletice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Mochov%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Mratín%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Mukaøov%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Nehvizdy%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Nová Ves%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Novı Vestec%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Nuèice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Nupaky%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Odolena Voda%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Oleška%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Ondøejov%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Oplany%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Panenské Bøeany'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Pìtihosty%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Petøíkov%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Podolanka%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Polerady%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Popovièky%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Prusice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Pøedboj%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Pøezletice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Radìjovice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Radonice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Øíèany%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Sedlec%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Senohraby%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Sibøina%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Sluhy%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Sluštice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Stranèice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Struhaøov%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Støíbrná Skalice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Sudovo Hlavno%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Sulice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Svémyslice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Svìtice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Svojetice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Šestajovice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Škvorec%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Štíhlice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Tehov%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Tehovec%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Úvaly%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Veleò%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Veliká Ves%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Velké Popovice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Vìtrušice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Vlkanèice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Vodochody%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Všestary%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Vyšehoøovice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Vıerky%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Vylovka%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Zápy%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Záryby%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Zdiby%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Zeleneè%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Zlatá%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Zlonín%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Zvánovice%'	then 'Praha-vıchod'	
+    --praha zapad
+    when"data_city"	ILIKE '%Bojanovice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Bratøínov%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Oleško%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Buš%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Èernolice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Èernošice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Èervenı Újezd%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Èíèovice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Èisovice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Davle%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Dobrovíz%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Dobøíè%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Dobøichovice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Dolní Bøeany%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Drahelèice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Holubice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Horomìøice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Hostivice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Hradištko%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Hvozdnice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Choteè%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Chrášany%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Chınì%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Chınice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Jeneè%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Jesenice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Jílové u Prahy%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Jílovištì%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Jinoèany%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Kamennı Pøívoz%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Karlík%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Klínec%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Knìeves%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Kosoø%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Kytín%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Lety%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Libèice nad Vltavou	%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Libeø%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Lichoceves%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Líšnice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Mìchenice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Mníšek pod Brdy%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Nuèice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Ohrobec%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Okoø%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Okrouhlo%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Oøech%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Petrov%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Pohoøí%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Prùhonice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Psáry%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Ptice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Roblín%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Roztoky%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Rudná%'then 'Praha-západ'
+when"data_city"	ILIKE '%Øevnice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Øitka%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Slapy%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Statenice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Støedokluky%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Svrkynì%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Štìchovice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Tachlovice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Trnová%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Tøebotov%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Tuchomìøice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Tursko%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Úholièky%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Úhonice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Únìtice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Velké Pøílepy%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Vestec%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Vonoklasy%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Vrané nad Vltavou%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Všenory%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Zahoøany%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Zbuzany%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Zlatníky%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Zvole%'	then 'Praha-západ'				when "data_city" ILIKE '%znojm%' then  'Znojmo'
+    when "data_city" iLIKE '%hradistsko%' then  'Hradištsko'
+    when "data_city" ILIKE '%olesko%' then  'Oleško'
+    when "data_city" ILIKE '%pardub%' then  'Pardubice'
+    when "data_city" ILIKE '%cheb%' then  'Cheb'
+     when "data_city" ILIKE '%tabor%' then  'Tábor'
+     when "data_city" ILIKE '%teplic%' then  'Teplice'
+when "data_city" ILIKE '%broumov%' then  'Hradec Králové'
+     when "data_city" iLIKE '%bruntal%' then  'Bruntál'
+when"data_city"	ILIKE '%bøezinìves%'	then 'Hlavní mìsto Praha'	
+when"data_city" ILIKE '%kolovraty%' then 'Hlavní mìsto Praha'
+when"data_city" ILIKE '%pocernice%' then 'Hlavní mìsto Praha'
+when"data_city" ILIKE '%terezin%' then 'Litomìøice'
+when"data_city" ILIKE '%most%' then 'Most'
+when"data_city" ILIKE '%olomouc%' then 'Olomouc'
+when"data_city" ILIKE '%kutn%' then 'Kutná Hora'
+when "data_city" iLIKE '%spanel%' then  'zahranièí'
+when "data_city" iLIKE '%chorvat%' then  'zahranièí'
+when "data_city" iLIKE '%ital%' then  'zahranièí'
+when "data_city" iLIKE '%recko%'then  'zahranièí'
+when "data_city" iLIKE '%slovensko%'then  'zahranièí'
+when "data_city" iLIKE '%turecko%'then  'zahranièí'
+when "data_city" iLIKE '%spojene staty%'then  'zahranièí'
+when "data_city" iLIKE '%francie%'then  'zahranièí'
+when "data_city" iLIKE '%rakousko%'then  'zahranièí'
+when "data_city" iLIKE '%polsko%'then  'zahranièí'
+when "data_city" iLIKE '%nemecko%'then  'zahranièí'
+when "data_city" iLIKE '%nizozemsko%'then  'zahranièí'
+when "data_city" iLIKE '%ukrajina%'then  'zahranièí'
+when "data_city" iLIKE '%bulharsko%'then  'zahranièí'
+when "data_city" iLIKE '%kapverdy%'then  'zahranièí'
+
+
+when "data_city" iLIKE '%zatec%'then  'Louny'
+when "data_city" iLIKE '%hranice%'then  'Pøerov'
+when "data_city" iLIKE '%milovice%'then  'Nymburk'
+when "data_city" iLIKE '%mikulov%'then  'Bøeclav'
+when "data_city" iLIKE '%chodov%'then  'Hlavní mìsto Praha'
+when "data_city" iLIKE '%Petøvald%'then  'Karviná'
+when "data_city" iLIKE '%Kyjov%'then  'Hodonín'
+when "data_city" iLIKE '%Hlinsko%'then  'Chrudim'
+when "data_city" iLIKE '%Rosice%'then  'Brno-venkov'
+when "data_city" iLIKE '%Planá%'then  'Tachov'
+when "data_city" iLIKE '%Šlapanice%'then  'Brno-venkov'
+when "data_city" iLIKE '%Hoøice%'then  'Hradec Králové'
+
+
+when "data_city" iLIKE '%susice%'then  'Klatovy'
+when "data_city" iLIKE '%Mohelnice%'then  'Šumperk'
+when "data_city" iLIKE '%Doksy%'then  'Èeská Lípa'
+when "data_city" iLIKE '%moravany%'then  'Pardubice'
+when "data_city" iLIKE '%Pohoøelice%'then  'Brno-venkov'
+when "data_city" iLIKE '%Kunovice%'then  'Uherské Hradištì'
+when "data_city" iLIKE '%Dobøany%'then  'Plzeò-jih'
+when "data_city" iLIKE '%Adamov%'then  'Blansko'
+when "data_city" iLIKE '%Kravaøe%'then  'Opava'
+when "data_city" iLIKE '%Osek%'then  'Teplice'
+else "data_city"
+end as "data_city2",
+     
+     
+case when"data_adress" ILIKE '%prah%' then 'Hlavní mìsto Praha'
+when"data_adress" ILIKE '%kolovraty%' then 'Hlavní mìsto Praha'
+when"data_adress" ILIKE '%pocernice%' then 'Hlavní mìsto Praha'
+when"data_adress" ILIKE '%terezin%' then 'Litomìøice'
+when"data_adress" ILIKE '%most%' then 'Most'
+when"data_adress" ILIKE '%olomouc%' then 'Olomouc'
+when"data_adress" ILIKE '%kutn%' then 'Kutná Hora'
+when"data_adress"	ILIKE '%bøezinìves%'	then 'Hlavní mìsto Praha'	
+when "data_adress" ILIKE '%rakovnik%' then 'Rakovník'
+when "data_adress" ILIKE '%plzen%' then  'Plzeò-mìsto'
+when "data_adress" ILIKE '%zlin%' then  'Zlín'
+when "data_adress" iLIKE '%teplic%' then  'Teplice'
+when "data_adress" ILIKE '%karlovy%' then  'Karlovy Vary'
+when "data_adress" ILIKE '%tabor%' then  'Tábor'
+when "data_city" ILIKE '%budejovic%' then  'Èeské Budìjovice'
+when "data_adress" ILIKE '%beroun%' then  'Beroun'
+when "data_adress" ILIKE '%vyskov%'then  'Vıškov'
+     when "data_adress" ILIKE '%znojm%' then  'Znojmo'
+     when "data_adress" ILIKE '%hradec%' then  'Hradec Králové'
+    when "data_adress" ILIKE '%pisek%' then  'Písek'
+    when "data_adress" ILIKE '%hradistsko%' then  'Hradištsko'
+when "data_adress" ILIKE '%jihlav%' then  'Jihlava'
+when "data_adress" ILIKE '%decin%' then  'Dìèín'
+when "data_adress" ILIKE '%breclav%' then  'Bøeclav'
+when "data_adress" ILIKE '%pardub%' then  'Pardubice'
+  when "data_adress" ILIKE '%kladno%' then  'Kladno'
+    when "data_adress" ILIKE '%benesov%' then  'Benešov'
+    when "data_adress" ILIKE '%cheb%' then  'Cheb'
+when "data_adress" ILIKE '%Brn%' then  'Brno-mìsto'
+     when "data_adress" ILIKE '%kralupy%' then  'Kralupy nad Vltavou'
+     when "data_adress" ILIKE '%ostrava%' then  'Ostrava'
+     when "data_adress" ILIKE '%olesko%' then  'Oleško'
+     when "data_adress" ILIKE '%frıdek%' then  'Frıdek-Místek'
+     when"data_adress"	ILIKE '%Babice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Baš%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Borek%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Boøanovice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Brandıs%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Brázdim	%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Bøezí%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Èelákovice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Èerné Vodìrady%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Èestlice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Dobroèovice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Dobøejovice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Doubek%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Døevèice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Døísy%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Herink%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Hlavenec%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Horoušany%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Hovorèovice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Hrusice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Husinec%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Jenštejn%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Jevany%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Jirny%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Kalištì	%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Kamenice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Káranı%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Klecany%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Klíèany%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Klokoèná%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Konìtopy%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Konojedy%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Kostelec nad Èernımi lesy%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Kostelec u Køíkù%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Kostelní Hlavno%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Kozojedy%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Køenek%'	then 'Praha-vıchod'
+				
+when"data_adress"	ILIKE '%Køenice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Køíkovı Újezdec%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Kunice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Kvìtnice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Láznì Toušeò%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Lhota%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Líbeznice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Louòovice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Máslovice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Mìšice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Mirošovice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Mnichovice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Modletice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Mochov%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Mratín%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Mukaøov%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Nehvizdy%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Nová Ves%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Novı Vestec%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Nuèice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Nupaky%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Odolena Voda%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Oleška%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Ondøejov%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Oplany%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Panenské Bøeany%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Pìtihosty%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Petøíkov%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Podolanka%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Polerady%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Popovièky%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Prusice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Pøedboj%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Pøezletice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Radìjovice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Radonice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Øíèany%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Sedlec%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Senohraby%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Sibøina	%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Sluhy%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Sluštice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Stranèice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Struhaøov%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Støíbrná Skalice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Sudovo Hlavno%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Sulice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Svémyslice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Svìtice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Svojetice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Šestajovice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Škvorec%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Štíhlice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Tehov%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Tehovec%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Úvaly%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Veleò%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Veliká Ves%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Velké Popovice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Vìtrušice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Vlkanèice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Vodochody%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Všestary%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Vyšehoøovice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Vıerky%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Vylovka%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Zápy%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Záryby%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Zdiby%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Zeleneè%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Zlatá%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Zlonín%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Zvánovice%'	then 'Praha-vıchod'
+     
+
+--zapad
+   --praha zapad
+    when"data_adress"	ILIKE '%Bojanovice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Bratøínov%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Oleško%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Buš%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Èernolice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Èernošice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Èervenı Újezd%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Èíèovice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Èisovice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Davle%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Dobrovíz%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Dobøíè%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Dobøichovice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Dolní Bøeany%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Drahelèice	%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Holubice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Horomìøice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Hostivice%'	then 'Praha-západ'
+when"data_adress"ILIKE '%Hradištko%'	then 'Praha-západ'
+when"data_adress"ILIKE '%Hvozdnice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Choteè%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Chrášany%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Chınì%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Chınice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Jeneè%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Jesenice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Jílové u Prahy%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Jílovištì%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Jinoèany%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Kamennı Pøívoz%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Karlík%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Klínec%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Knìeves	%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Kosoø	%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Kytín	%'	then 'Praha-západ'
+when"data_adress"ILIKE '%Lety%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Libèice nad Vltavou	%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Libeø%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Lichoceves%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Líšnice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Mìchenice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Mníšek pod Brdy%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Nuèice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Ohrobec%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Okoø%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Okrouhlo%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Oøech%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Petrov%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Pohoøí%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Prùhonice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Psáry%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Ptice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Roblín%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Roztoky%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Rudná%'then 'Praha-západ'
+when"data_adress"	ILIKE '%Øevnice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Øitka%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Slapy%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Statenice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Støedokluky%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Svrkynì%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Štìchovice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Tachlovice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Trnová%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Tøebotov%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Tuchomìøice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Tursko%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Úholièky%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Úhonice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Únìtice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Velké Pøílepy%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Vestec%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Vonoklasy%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Vrané nad Vltavou%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Všenory%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Zahoøany%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Zbuzany%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Zlatníky%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Zvole	%'	then 'Praha-západ'
+when "data_adress" iLIKE '%broumov%' then  'Hradec Králové'
+when "data_adress" iLIKE '%bruntal%' then  'Bruntál'
+when "data_adress" iLIKE '%spanel%' then  'zahranièí'
+when "data_adress" iLIKE '%chorvat%' then  'zahranièí'
+when "data_adress" iLIKE '%ital%' then  'zahranièí'
+when "data_adress" iLIKE '%recko%'then  'zahranièí'
+when "data_adress" iLIKE '%slovensko%'then  'zahranièí'
+when "data_adress" iLIKE '%turecko%'then  'zahranièí'
+when "data_adress" iLIKE '%spojene staty%'then  'zahranièí'
+when "data_adress" iLIKE '%francie%'then  'zahranièí'
+when "data_adress" iLIKE '%rakousko%'then  'zahranièí'
+when "data_adress" iLIKE '%polsko%'then  'zahranièí'
+when "data_adress" iLIKE '%nemecko%'then  'zahranièí'
+when "data_adress" iLIKE '%nizozemsko%'then  'zahranièí'
+when "data_adress" iLIKE '%kapverdy%'then  'zahranièí'
+
+when "data_adress" iLIKE '%ukrajina%'then  'zahranièí'
+when "data_adress" iLIKE '%bulharsko%'then  'zahranièí'
+--
+when "data_adress" iLIKE '%zatec%'then  'Louny'
+when "data_adress" iLIKE '%hranice%'then  'Pøerov'
+when "data_adress" iLIKE '%milovice%'then  'Nymburk'
+when "data_adress" iLIKE '%mikulov%'then  'Bøeclav'
+when "data_adress" iLIKE '%chodov%'then  'Hlavní mìsto Praha'
+when "data_adress" iLIKE '%Petøvald%'then  'Karviná'
+when "data_adress" iLIKE '%Kyjov%'then  'Hodonín'
+when "data_adress" iLIKE '%Hlinsko%'then  'Chrudim'
+when "data_adress" iLIKE '%Rosice%'then  'Brno-venkov'
+when "data_adress" iLIKE '%Planá%'then  'Tachov'
+when "data_adress" iLIKE '%Šlapanice%'then  'Brno-venkov'
+when "data_adress" iLIKE '%Hoøice%'then  'Hradec Králové'
+--
+when "data_adress" iLIKE '%susice%'then  'Klatovy'
+when "data_adress" iLIKE '%Mohelnice%'then  'Šumperk'
+when "data_adress" iLIKE '%Doksy%'then  'Èeská Lípa'
+when "data_adress" iLIKE '%moravany%'then  'Pardubice'
+when "data_adress" iLIKE '%Pohoøelice%'then  'Brno-venkov'
+when "data_adress" iLIKE '%Kunovice%'then  'Uherské Hradištì'
+when "data_adress" iLIKE '%Dobøany%'then  'Plzeò-jih'
+when "data_adress" iLIKE '%Adamov%'then  'Blansko'
+when "data_adress" iLIKE '%Kravaøe%'then  'Opava'
+when "data_adress" iLIKE '%Osek%'then  'Teplice'
+
+
+
+else "data_adress" 
+     end as "data_adress2",
+
+Case 
+when "data_district"='' then "data_city2" 
+else "data_district"
+end as "D4",
+
+Case 
+when "D4" ='' then "data_adress2"
+else "D4"
+END AS "final_adresa",
+"data_description"::text as "data_description",
+"data_propertyState"::text(100) as "data_propertyState",
+CASE
+ WHEN "googleGeometry_location_coordinates_0" ='' THEN 0
+ ELSE "googleGeometry_location_coordinates_0"
+END AS "googleGeometry_location_coordinates_0",
+CASE
+  WHEN "googleGeometry_location_coordinates_1" = '' THEN 0
+  ELSE "googleGeometry_location_coordinates_1"
+ END AS "googleGeometry_location_coordinates_1"
+
+from "data_bezrealitky" 
+
+WHERE "data_type"='apartment' OR "data_type"= 'house'
+
+ORDER BY "createdAt"desc;
+
+CREATE OR REPLACE TABLE OUT_BEZREALITKY_FINAL AS
+ select
+"id"::text(100) as "id",
+"createdAt"::date as "createdAt",
+"markAsDeadAt_final"::date as "markAsDeadAt",
+"Mesice":: date as "Mesice",
+"Rok"::date as "Rok",
+"Mesice_ukonceno"::date as "Mesice_ukonceno",
+"Rok_ukonceno":: date as "Rok_ukonceno",
+datediff::int as "Datediff",
+"Den_v_tydnu"::text(10) as "Den_v_tydnu",
+"data_offerType" ::text(100) as "data_offerType",
+"data_type" ::text(100) as "data_type",
+"data_ownership" ::text(100) as "data_ownership",
+"data_subtype"::text(100) as "data_subtype",
+"data_arrangement"::text(100) as "data_arrangement",
+"data_livingArea"::int as "data_livingArea",
+"data_price"::int as "data_price",
+"data_priceCurrency"::text as "data_priceCurrency",
+"data_priceType"::text as "data_priceType",
+"data_countryCode"::text(100) as "data_countryCode",
+"data_district"::text(100) as "data_district",
+"final_adresa"::text(100) as "final_adresa"
+
+from out_bezrealitky 
+
+WHERE "data_type"='apartment' OR "data_type"= 'house'
+
+ORDER BY "createdAt"desc
+;
+
+------------------------
+--ULOV DOMOV
+------------------------------
+
+CREATE OR REPLACE TABLE OUT_ULOV_DOMOV AS
+
+select 
+"id"::text(20) as "id",
+"createdAt"::date as "createdAt",
+EXTRACT(YEAR,"createdAt"::date) as "Year",
+EXTRACT(MONTH,"createdAt"::date) as "Month",
+to_date("Year"||'-'||"Month"||'-'||01) as "Mesice",
+to_date("Year"||'-'||01||'-'||01) as "Rok",
+dayname("createdAt"::date) as "Den_v_tydnu",
+"data_offerType" ::text(20) as "data_offerType",
+"data_type" ::text(20) as "data_type",
+"data_ownership" ::text(20) as "data_ownership",
+"data_subtype"::text(20) as "data_subtype",
+"data_arrangement"::text(20) as "data_arrangement",
+CASE
+  WHEN "data_livingArea" ='' THEN 0
+  ELSE "data_livingArea"
+ END AS "data_livingArea",
+CASE
+  WHEN "data_price" ='' THEN 0
+  ELSE "data_price"
+ END AS "data_price",
+ "data_priceCurrency"::text(20) as "data_priceCurrency",
+"data_priceType"::text(20) as "data_priceType",
+"data_buildingType"::text(20) as "data_buildingType",
+ LEFT("markAsDeadAt",10) AS "markAsDeadAt2",
+SPLIT("markAsDeadAt2",'-') as "test",
+         ("test"[0] )as "year",
+                ("test"[1] )as "month",
+          ("test"[2] )as "day",
+        ("year" || '-' || "month"|| '-' || "day") AS "datum_uzavreni",        
+        "datum_uzavreni"::date as "markAsDeadAt_final",
+LEFT("markAsDeadAt",10) as "markAsDeadAt",
+extract(YEAR,"markAsDeadAt_final") as "Year1",
+extract(MONTH,"markAsDeadAt_final") as "Month1",
+to_date("Year1"||'-'||"Month1"||'-'||01) as "Mesice_ukonceno",
+to_date("Year1"||'-'||01||'-'||01) as "Rok_ukonceno",
+datediff(day,"createdAt","markAsDeadAt_final") as datediff,
+"data_url"::text(50000) as "data_url",
+"data_localUniqueId" ::text(5000) as "data_localUniqueId",
+"data_countryCode"::text(20) as "data_countryCode",
+"data_city"::text(200) as "data_city",
+"data_district"::text(1000) as "data_district",
+"data_title"::text(200) as "data_title"
+
+from "data_ulov_domov"
+WHERE "data_type"='apartment' OR "data_type"= 'house'
+
+ORDER BY "createdAt"desc
+;
+
+CREATE OR REPLACE TABLE OUT_ULOV_DOMOV_FINAL AS
+ select
+"id"::text(20) as "id",
+"createdAt"::date as "createdAt",
+"markAsDeadAt_final"::date as "markAsDeadAt",
+"Mesice":: date as "Mesice",
+"Rok"::date as "Rok",
+"Mesice_ukonceno"::date as "Mesice_ukonceno",
+"Rok_ukonceno":: date as "Rok_ukonceno",
+datediff::int as "Datediff",
+"Den_v_tydnu"::text(10) as "Den_v_tydnu",
+"data_offerType" ::text(20) as "data_offerType",
+"data_type" ::text(20) as "data_type",
+"data_ownership" ::text(20) as "data_ownership",
+"data_subtype"::text(20) as "data_subtype",
+"data_arrangement"::text(20) as "data_arrangement",
+"data_livingArea"::int as "data_livingArea",
+"data_price"::int as "data_price",
+"data_priceCurrency"::text(20) as "data_priceCurrency",
+"data_priceType"::text(20) as "data_priceType",
+"data_countryCode"::text(20) as "data_countryCode",
+"data_city"::text(200) as "data_city",
+"data_district"::text(100) as "data_district"
+
+
+from OUT_ULOV_DOMOV
+
+WHERE "data_type"='apartment' OR "data_type"= 'house'
+
+ORDER BY "createdAt"desc;
+
+--------------
+--REALITY.CZ
+---------------
+
+CREATE OR REPLACE TABLE OUT_REALITY AS
+ select
+"id"::text(20) as "id",
+"createdAt"::date as "createdAt",
+EXTRACT(YEAR,"createdAt"::date) as "Year",
+EXTRACT(MONTH,"createdAt"::date) as "Month",
+to_date("Year"||'-'||"Month"||'-'||01) as "Mesice",
+to_date("Year"||'-'||01||'-'||01) as "Rok",
+dayname("createdAt"::date) as "Den_v_tydnu",
+"data_offerType" ::text(20) as "data_offerType",
+"data_type" ::text(20) as "data_type",
+"data_ownership" ::text(20) as "data_ownership",
+"data_subtype"::text(20) as "data_subtype",
+"data_arrangement"::text(20) as "data_arrangement",
+CASE
+  WHEN "data_livingArea" ='' THEN 0
+  ELSE "data_livingArea"
+ END AS "data_livingArea",
+CASE
+  WHEN "data_landArea"='' THEN 0
+  ELSE "data_landArea"
+ END AS "data_landArea",
+CASE
+  WHEN "data_price" ='' THEN 0
+  ELSE "data_price"
+ END AS "data_price",
+ "data_priceCurrency"::text(20) as "data_priceCurrency",
+"data_priceType"::text(20) as "data_priceType",
+"data_buildingType"::text(20) as "data_buildingType",
+LEFT("markAsDeadAt",10) AS "markAsDeadAt2",
+SPLIT("markAsDeadAt2",'-') as "test",
+         ("test"[0] )as "year",
+                ("test"[1] )as "month",
+          ("test"[2] )as "day",
+        ("year" || '-' || "month"|| '-' || "day") AS "datum_uzavreni",        
+        "datum_uzavreni"::date as "markAsDeadAt_final",
+LEFT("markAsDeadAt",10) as "markAsDeadAt",
+extract(YEAR,"markAsDeadAt_final") as "Year1",
+extract(MONTH,"markAsDeadAt_final") as "Month1",
+to_date("Year1"||'-'||"Month1"||'-'||01) as "Mesice_ukonceno",
+to_date("Year1"||'-'||01||'-'||01) as "Rok_ukonceno",
+datediff(day,"createdAt","markAsDeadAt_final") as datediff,
+"data_url"::text(5000) as "data_url",
+"data_localUniqueId" ::text(5000) as "data_localUniqueId",
+"data_title"::text(200) as "data_title",
+"data_countryCode"::text(10) as "data_countryCode",
+"data_city"::text(200) as "data_city",
+"data_district"::text(100) as "data_district",
+"data_address"::text(200) as "data_address",
+"data_gpsCoordType"::text(100) as "data_gpsCoordType",
+CASE
+ WHEN "data_gpsCoord_lat" ='' THEN 0
+ ELSE "data_gpsCoord_lat"
+END AS "data_gpsCoord_lat",
+CASE
+  WHEN "data_gpsCoord_lon" = '' THEN 0
+  ELSE "data_gpsCoord_lon"
+ END AS "data_gpsCoord_lon",
+
+"data_description"::text(30000) as "data_description",
+
+"data_propertyState"::text(100) as "data_propertyState"
+
+from "data_reality.cz"
+WHERE "data_type"='apartment' OR "data_type"= 'house'
+
+ORDER BY "createdAt"desc;
+
+CREATE OR REPLACE TABLE "OUT_REALITY.CZ_final" AS
+ select
+"id"::text(20) as "id",
+"createdAt"::date as "createdAt",
+"markAsDeadAt_final"::date as "markAsDeadAt",
+"Mesice":: date as "Mesice",
+"Rok"::date as "Rok",
+"Mesice_ukonceno"::date as "Mesice_ukonceno",
+"Rok_ukonceno":: date as "Rok_ukonceno",
+ datediff::int as "Datediff",
+"Den_v_tydnu"::text(10) as "Den_v_tydnu",
+"data_offerType" ::text(20) as "data_offerType",
+"data_type" ::text(20) as "data_type",
+"data_ownership" ::text(20) as "data_ownership",
+"data_subtype"::text(20) as "data_subtype",
+"data_arrangement"::text(20) as "data_arrangement",
+"data_livingArea"::int as "data_livingArea",
+"data_landArea"::int as "data_landArea",
+"data_price"::int as "data_price",
+"data_priceCurrency"::text(20) as "data_priceCurrency",
+"data_priceType"::text(20) as "data_priceType",
+"data_countryCode"::text(20) as "data_countryCode",
+"data_city"::text(200) as "data_city",
+"data_district"::text(100) as "data_district"
+
+from OUT_REALITY 
+WHERE "data_type"='apartment' OR "data_type"= 'house'
+ORDER BY "createdAt"desc;
+
+--------------
+--REALITYMIX VÈ. MÌST FINAL_ADRESA
+---------------
+CREATE OR REPLACE TABLE OUT_REALITYMIX AS
+ select
+"id"::text(20) as "id",
+"createdAt"::date as "createdAt",
+EXTRACT(YEAR,"createdAt"::date) as "Year",
+EXTRACT(MONTH,"createdAt"::date) as "Month",
+to_date("Year"||'-'||"Month"||'-'||01) as "Mesice",
+to_date("Year"||'-'||01||'-'||01) as "Rok",
+dayname("createdAt"::date) as "Den_v_tydnu",
+"data_offerType" ::text(20) as "data_offerType",
+"data_type" ::text(20) as "data_type",
+"data_ownership" ::text(20) as "data_ownership",
+"data_subtype"::text(20) as "data_subtype",
+"data_arrangement"::text(20) as "data_arrangement",
+CASE
+  WHEN "data_livingArea" ='' THEN 0
+  ELSE "data_livingArea"
+ END AS "data_livingArea",
+CASE
+  WHEN "data_landArea"='' THEN 0
+  ELSE "data_landArea"
+ END AS "data_landArea",
+CASE
+  WHEN "data_price" ='' THEN 0
+  ELSE "data_price"
+ END AS "data_price",
+ "data_priceCurrency"::text(20) as "data_priceCurrency",
+"data_priceType"::text(20) as "data_priceType",
+"data_buildingType"::text(20) as "data_buildingType",
+TRY_TO_TIMESTAMP("markAsDeadAt") AS "markAsDeadAt_final", 
+extract(YEAR,"markAsDeadAt_final") as "Year1",
+extract(MONTH,"markAsDeadAt_final") as "Month1",
+to_date("Year1"||'-'||"Month1"||'-'||01) as "Mesice_ukonceno",
+to_date("Year1"||'-'||01||'-'||01) as "Rok_ukonceno",
+datediff(day,"createdAt","markAsDeadAt_final") as datediff,
+"data_url"::text(5000) as "data_url",
+"data_localUniqueId" ::text(5000) as "data_localUniqueId",
+"data_title"::text(200) as "data_title",
+"data_countryCode"::text(10) as "data_countryCode",
+"data_city"::text(200) as "data_city",
+"data_district"::text(100) as "data_district",
+"data_address"::text(5000) as "data_adress",
+case 
+when "data_city" ILIKE '%kladno%' then 'Kladno'
+when "data_city" ILIKE '%rakovnik%' then 'Rakovník'
+
+when "data_city" ILIKE '%kralupy%' then  'Kralupy nad Vltavou'
+     when "data_city" ILIKE '%vyskov%'then  'Vıškov'
+when "data_city" ILIKE '%decin%' then  'Dìèín'
+     when "data_city" ILIKE '%frıdek%' then  'Frıdek-Místek'
+when "data_city" ILIKE '%breclav%' then  'Bøeclav'
+when "data_city" ILIKE '%budejovic%' then  'Èeské Budìjovice'
+     when"data_city" ILIKE '%prah%' then 'Hlavní mìsto Praha'
+    when "data_city" ILIKE '%Brn%' then  'Brno-mìsto'
+    when "data_city" ILIKE '%jihlav%' then  'Jihlava'
+    when "data_city" ILIKE '%ostrava%' then  'Ostrava'
+    when "data_city" ILIKE '%hradec%' then  'Hradec Králové'
+    when "data_city" ILIKE '%benesov%' then  'Benešov'
+    when "data_city" ILIKE '%beroun%' then  'Beroun'
+    when "data_city" ILIKE '%pisek%' then  'Písek'
+    when "data_city" ILIKE '%plzen%' then  'Plzeò-mìsto'
+    when "data_city" ILIKE '%karlovy%' then  'Karlovy Vary'
+    when "data_city" ILIKE '%zlin%' then  'Zlín'
+    when"data_city"	ILIKE '%Babice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Baš%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Borek%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Boøanovice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Brandıs%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Brázdim%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Bøezí%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Èelákovice (pou)	%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Èerné Vodìrady	%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Èestlice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Dobroèovice	%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Dobøejovice	%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Doubek%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Døevèice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Døísy%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Herink%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Hlavenec%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Horoušany%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Hovorèovice	%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Hrusice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Husinec%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Jenštejn%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Jevany%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Jirny%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Kalištì	%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Kamenice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Káranı%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Klecany%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Klíèany%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Klokoèná%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Konìtopy%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Konojedy%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Kostelec nad Èernımi lesy%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Kostelec u Køíkù%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Kostelní Hlavno	%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Kozojedy%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Køenek%'	then 'Praha-vıchod'	
+									
+when"data_city"	ILIKE '%Køenice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Køíkovı Újezdec%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Kunice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Kvìtnice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Láznì Toušeò%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Lhota%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Líbeznice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Louòovice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Máslovice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Mìšice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Mirošovice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Mnichovice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%fModletice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Mochov%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Mratín%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Mukaøov%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Nehvizdy%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Nová Ves%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Novı Vestec%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Nuèice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Nupaky%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Odolena Voda%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Oleška%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Ondøejov%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Oplany%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Panenské Bøeany'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Pìtihosty%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Petøíkov%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Podolanka%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Polerady%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Popovièky%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Prusice	%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Pøedboj	%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Pøezletice	%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Radìjovice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Radonice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Øíèany%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Sedlec%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Senohraby%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Sibøina	%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Sluhy%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Sluštice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Stranèice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Struhaøov%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Støíbrná Skalice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Sudovo Hlavno%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Sulice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Svémyslice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Svìtice	%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Svojetice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Šestajovice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Škvorec%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Štíhlice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Tehov%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Tehovec%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Úvaly%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Veleò%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Veliká Ves%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Velké Popovice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Vìtrušice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Vlkanèice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Vodochody%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Všestary%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Vyšehoøovice%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Vıerky%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Vylovka%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Zápy%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Záryby%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Zdiby%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Zeleneè%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Zlatá%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Zlonín%'	then 'Praha-vıchod'	
+when"data_city"	ILIKE '%Zvánovice%'	then 'Praha-vıchod'	
+
+
+    --praha zapad
+    when"data_city"	ILIKE '%Bojanovice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Bratøínov%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Oleško%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Buš%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Èernolice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Èernošice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Èervenı Újezd%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Èíèovice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Èisovice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Davle%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Dobrovíz%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Dobøíè%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Dobøichovice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Dolní Bøeany%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Drahelèice	%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Holubice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Horomìøice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Hostivice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Hradištko%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Hvozdnice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Choteè%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Chrášany%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Chınì%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Chınice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Jeneè%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Jesenice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Jílové u Prahy%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Jílovištì%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Jinoèany%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Kamennı Pøívoz%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Karlík%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Klínec%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Knìeves%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Kosoø%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Kytín%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Lety%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Libèice nad Vltavou	%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Libeø%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Lichoceves%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Líšnice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Mìchenice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Mníšek pod Brdy%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Nuèice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Ohrobec%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Okoø%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Okrouhlo%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Oøech%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Petrov%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Pohoøí%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Prùhonice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Psáry%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Ptice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Roblín%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Roztoky%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Rudná%'then 'Praha-západ'
+when"data_city"	ILIKE '%Øevnice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Øitka%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Slapy%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Statenice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Støedokluky%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Svrkynì%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Štìchovice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Tachlovice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Trnová%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Tøebotov%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Tuchomìøice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Tursko%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Úholièky%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Úhonice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Únìtice%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Velké Pøílepy%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Vestec%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Vonoklasy%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Vrané nad Vltavou%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Všenory%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Zahoøany%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Zbuzany%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Zlatníky%'	then 'Praha-západ'
+when"data_city"	ILIKE '%Zvole%'	then 'Praha-západ'																																																																																																																																																																																																																																																																																																																																																																											
+when "data_city" ILIKE '%znojm%' then  'Znojmo'
+    when "data_city" iLIKE '%hradistsko%' then  'Hradištsko'
+    when "data_city" ILIKE '%olesko%' then  'Oleško'
+    when "data_city" ILIKE '%pardub%' then  'Pardubice'
+    when "data_city" ILIKE '%cheb%' then  'Cheb'
+     when "data_city" ILIKE '%tabor%' then  'Tábor'
+     when "data_city" ILIKE '%teplic%' then  'Teplice'
+when "data_city" ILIKE '%broumov%' then  'Hradec Králové'
+     when "data_city" iLIKE '%bruntal%' then  'Bruntál'
+when"data_city"	ILIKE '%bøezinìves%'	then 'Hlavní mìsto Praha'	
+when"data_city" ILIKE '%kolovraty%' then 'Hlavní mìsto Praha'
+when"data_city" ILIKE '%pocernice%' then 'Hlavní mìsto Praha'
+when"data_city" ILIKE '%terezin%' then 'Litomìøice'
+when"data_city" ILIKE '%most%' then 'Most'
+when"data_city" ILIKE '%olomouc%' then 'Olomouc'
+when"data_city" ILIKE '%kutn%' then 'Kutná Hora'
+when "data_city" iLIKE '%spanel%' then  'zahranièí'
+when "data_city" iLIKE '%chorvat%' then  'zahranièí'
+when "data_city" iLIKE '%ital%' then  'zahranièí'
+when "data_city" iLIKE '%recko%'then  'zahranièí'
+when "data_city" iLIKE '%slovensko%'then  'zahranièí'
+when "data_city" iLIKE '%turecko%'then  'zahranièí'
+when "data_city" iLIKE '%spojene staty%'then  'zahranièí'
+when "data_city" iLIKE '%francie%'then  'zahranièí'
+when "data_city" iLIKE '%rakousko%'then  'zahranièí'
+when "data_city" iLIKE '%polsko%'then  'zahranièí'
+when "data_city" iLIKE '%nemecko%'then  'zahranièí'
+when "data_city" iLIKE '%nizozemsko%'then  'zahranièí'
+when "data_city" iLIKE '%ukrajina%'then  'zahranièí'
+when "data_city" iLIKE '%bulharsko%'then  'zahranièí'
+when "data_city" iLIKE '%kapverdy%'then  'zahranièí'
+
+
+when "data_city" iLIKE '%zatec%'then  'Louny'
+when "data_city" iLIKE '%hranice%'then  'Pøerov'
+when "data_city" iLIKE '%milovice%'then  'Nymburk'
+when "data_city" iLIKE '%mikulov%'then  'Bøeclav'
+when "data_city" iLIKE '%chodov%'then  'Hlavní mìsto Praha'
+when "data_city" iLIKE '%Petøvald%'then  'Karviná'
+when "data_city" iLIKE '%Kyjov%'then  'Hodonín'
+when "data_city" iLIKE '%Hlinsko%'then  'Chrudim'
+when "data_city" iLIKE '%Rosice%'then  'Brno-venkov'
+when "data_city" iLIKE '%Planá%'then  'Tachov'
+when "data_city" iLIKE '%Šlapanice%'then  'Brno-venkov'
+when "data_city" iLIKE '%Hoøice%'then  'Hradec Králové'
+
+
+when "data_city" iLIKE '%susice%'then  'Klatovy'
+when "data_city" iLIKE '%Mohelnice%'then  'Šumperk'
+when "data_city" iLIKE '%Doksy%'then  'Èeská Lípa'
+when "data_city" iLIKE '%moravany%'then  'Pardubice'
+when "data_city" iLIKE '%Pohoøelice%'then  'Brno-venkov'
+when "data_city" iLIKE '%Kunovice%'then  'Uherské Hradištì'
+when "data_city" iLIKE '%Dobøany%'then  'Plzeò-jih'
+when "data_city" iLIKE '%Adamov%'then  'Blansko'
+when "data_city" iLIKE '%Kravaøe%'then  'Opava'
+when "data_city" iLIKE '%Osek%'then  'Teplice'
+else "data_city"
+end as "data_city2",
+     
+     
+case when"data_adress" ILIKE '%prah%' then 'Hlavní mìsto Praha'
+when"data_adress" ILIKE '%kolovraty%' then 'Hlavní mìsto Praha'
+when"data_adress" ILIKE '%pocernice%' then 'Hlavní mìsto Praha'
+when"data_adress" ILIKE '%terezin%' then 'Litomìøice'
+when"data_adress" ILIKE '%most%' then 'Most'
+when"data_adress" ILIKE '%olomouc%' then 'Olomouc'
+when"data_adress" ILIKE '%kutn%' then 'Kutná Hora'
+when"data_adress"	ILIKE '%bøezinìves%'	then 'Hlavní mìsto Praha'	
+when "data_adress" ILIKE '%rakovnik%' then 'Rakovník'
+when "data_adress" ILIKE '%plzen%' then  'Plzeò-mìsto'
+when "data_adress" ILIKE '%zlin%' then  'Zlín'
+when "data_adress" iLIKE '%teplic%' then  'Teplice'
+when "data_adress" ILIKE '%karlovy%' then  'Karlovy Vary'
+when "data_adress" ILIKE '%tabor%' then  'Tábor'
+when "data_city" ILIKE '%budejovic%' then  'Èeské Budìjovice'
+when "data_adress" ILIKE '%beroun%' then  'Beroun'
+when "data_adress" ILIKE '%vyskov%'then  'Vıškov'
+     when "data_adress" ILIKE '%znojm%' then  'Znojmo'
+     when "data_adress" ILIKE '%hradec%' then  'Hradec Králové'
+    when "data_adress" ILIKE '%pisek%' then  'Písek'
+    when "data_adress" ILIKE '%hradistsko%' then  'Hradištsko'
+when "data_adress" ILIKE '%jihlav%' then  'Jihlava'
+when "data_adress" ILIKE '%decin%' then  'Dìèín'
+when "data_adress" ILIKE '%breclav%' then  'Bøeclav'
+when "data_adress" ILIKE '%pardub%' then  'Pardubice'
+  when "data_adress" ILIKE '%kladno%' then  'Kladno'
+    when "data_adress" ILIKE '%benesov%' then  'Benešov'
+    when "data_adress" ILIKE '%cheb%' then  'Cheb'
+when "data_adress" ILIKE '%Brn%' then  'Brno-mìsto'
+     when "data_adress" ILIKE '%kralupy%' then  'Kralupy nad Vltavou'
+     when "data_adress" ILIKE '%ostrava%' then  'Ostrava'
+     when "data_adress" ILIKE '%olesko%' then  'Oleško'
+     when "data_adress" ILIKE '%frıdek%' then  'Frıdek-Místek'
+     when"data_adress"	ILIKE '%Babice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Baš%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Borek%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Boøanovice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Brandıs%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Brázdim	%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Bøezí%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Èelákovice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Èerné Vodìrady%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Èestlice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Dobroèovice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Dobøejovice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Doubek%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Døevèice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Døísy%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Herink%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Hlavenec%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Horoušany%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Hovorèovice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Hrusice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Husinec%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Jenštejn%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Jevany%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Jirny%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Kalištì	%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Kamenice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Káranı%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Klecany%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Klíèany%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Klokoèná%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Konìtopy%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Konojedy%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Kostelec nad Èernımi lesy%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Kostelec u Køíkù%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Kostelní Hlavno%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Kozojedy%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Køenek%'	then 'Praha-vıchod'
+				
+when"data_adress"	ILIKE '%Køenice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Køíkovı Újezdec%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Kunice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Kvìtnice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Láznì Toušeò%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Lhota%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Líbeznice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Louòovice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Máslovice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Mìšice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Mirošovice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Mnichovice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Modletice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Mochov%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Mratín%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Mukaøov%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Nehvizdy%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Nová Ves%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Novı Vestec%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Nuèice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Nupaky%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Odolena Voda%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Oleška%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Ondøejov%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Oplany%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Panenské Bøeany%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Pìtihosty%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Petøíkov%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Podolanka%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Polerady%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Popovièky%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Prusice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Pøedboj%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Pøezletice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Radìjovice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Radonice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Øíèany%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Sedlec%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Senohraby%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Sibøina	%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Sluhy%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Sluštice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Stranèice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Struhaøov%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Støíbrná Skalice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Sudovo Hlavno%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Sulice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Svémyslice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Svìtice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Svojetice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Šestajovice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Škvorec%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Štíhlice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Tehov%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Tehovec%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Úvaly%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Veleò%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Veliká Ves%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Velké Popovice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Vìtrušice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Vlkanèice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Vodochody%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Všestary%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Vyšehoøovice%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Vıerky%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Vylovka%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Zápy%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Záryby%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Zdiby%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Zeleneè%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Zlatá%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Zlonín%'	then 'Praha-vıchod'
+when"data_adress"	ILIKE '%Zvánovice%'	then 'Praha-vıchod'
+     
+
+--zapad
+   --praha zapad
+    when"data_adress"	ILIKE '%Bojanovice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Bratøínov%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Oleško%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Buš%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Èernolice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Èernošice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Èervenı Újezd%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Èíèovice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Èisovice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Davle%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Dobrovíz%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Dobøíè%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Dobøichovice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Dolní Bøeany%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Drahelèice	%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Holubice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Horomìøice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Hostivice%'	then 'Praha-západ'
+when"data_adress"ILIKE '%Hradištko%'	then 'Praha-západ'
+when"data_adress"ILIKE '%Hvozdnice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Choteè%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Chrášany%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Chınì%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Chınice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Jeneè%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Jesenice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Jílové u Prahy%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Jílovištì%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Jinoèany%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Kamennı Pøívoz%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Karlík%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Klínec%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Knìeves	%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Kosoø	%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Kytín	%'	then 'Praha-západ'
+when"data_adress"ILIKE '%Lety%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Libèice nad Vltavou	%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Libeø%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Lichoceves%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Líšnice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Mìchenice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Mníšek pod Brdy%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Nuèice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Ohrobec%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Okoø%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Okrouhlo%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Oøech%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Petrov%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Pohoøí%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Prùhonice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Psáry%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Ptice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Roblín%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Roztoky%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Rudná%'then 'Praha-západ'
+when"data_adress"	ILIKE '%Øevnice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Øitka%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Slapy%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Statenice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Støedokluky%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Svrkynì%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Štìchovice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Tachlovice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Trnová%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Tøebotov%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Tuchomìøice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Tursko%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Úholièky%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Úhonice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Únìtice%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Velké Pøílepy%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Vestec%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Vonoklasy%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Vrané nad Vltavou%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Všenory%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Zahoøany%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Zbuzany%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Zlatníky%'	then 'Praha-západ'
+when"data_adress"	ILIKE '%Zvole	%'	then 'Praha-západ'
+when "data_adress" iLIKE '%broumov%' then  'Hradec Králové'
+when "data_adress" iLIKE '%bruntal%' then  'Bruntál'
+when "data_adress" iLIKE '%spanel%' then  'zahranièí'
+when "data_adress" iLIKE '%chorvat%' then  'zahranièí'
+when "data_adress" iLIKE '%ital%' then  'zahranièí'
+when "data_adress" iLIKE '%recko%'then  'zahranièí'
+when "data_adress" iLIKE '%slovensko%'then  'zahranièí'
+when "data_adress" iLIKE '%turecko%'then  'zahranièí'
+when "data_adress" iLIKE '%spojene staty%'then  'zahranièí'
+when "data_adress" iLIKE '%francie%'then  'zahranièí'
+when "data_adress" iLIKE '%rakousko%'then  'zahranièí'
+when "data_adress" iLIKE '%polsko%'then  'zahranièí'
+when "data_adress" iLIKE '%nemecko%'then  'zahranièí'
+when "data_adress" iLIKE '%nizozemsko%'then  'zahranièí'
+when "data_adress" iLIKE '%kapverdy%'then  'zahranièí'
+
+when "data_adress" iLIKE '%ukrajina%'then  'zahranièí'
+when "data_adress" iLIKE '%bulharsko%'then  'zahranièí'
+--
+when "data_adress" iLIKE '%zatec%'then  'Louny'
+when "data_adress" iLIKE '%hranice%'then  'Pøerov'
+when "data_adress" iLIKE '%milovice%'then  'Nymburk'
+when "data_adress" iLIKE '%mikulov%'then  'Bøeclav'
+when "data_adress" iLIKE '%chodov%'then  'Hlavní mìsto Praha'
+when "data_adress" iLIKE '%Petøvald%'then  'Karviná'
+when "data_adress" iLIKE '%Kyjov%'then  'Hodonín'
+when "data_adress" iLIKE '%Hlinsko%'then  'Chrudim'
+when "data_adress" iLIKE '%Rosice%'then  'Brno-venkov'
+when "data_adress" iLIKE '%Planá%'then  'Tachov'
+when "data_adress" iLIKE '%Šlapanice%'then  'Brno-venkov'
+when "data_adress" iLIKE '%Hoøice%'then  'Hradec Králové'
+--
+when "data_adress" iLIKE '%susice%'then  'Klatovy'
+when "data_adress" iLIKE '%Mohelnice%'then  'Šumperk'
+when "data_adress" iLIKE '%Doksy%'then  'Èeská Lípa'
+when "data_adress" iLIKE '%moravany%'then  'Pardubice'
+when "data_adress" iLIKE '%Pohoøelice%'then  'Brno-venkov'
+when "data_adress" iLIKE '%Kunovice%'then  'Uherské Hradištì'
+when "data_adress" iLIKE '%Dobøany%'then  'Plzeò-jih'
+when "data_adress" iLIKE '%Adamov%'then  'Blansko'
+when "data_adress" iLIKE '%Kravaøe%'then  'Opava'
+when "data_adress" iLIKE '%Osek%'then  'Teplice'
+
+
+
+else "data_adress" 
+     end as "data_adress2",
+
+Case 
+when "data_district"='' then "data_city2" 
+else "data_district"
+end as "D4",
+
+Case 
+when "D4" ='' then "data_adress2"
+else "D4"
+END AS "final_adresa",
+CASE
+ WHEN "data_gpsCoord_lat" ='' THEN 0
+ ELSE "data_gpsCoord_lat"
+END AS "data_gpsCoord_lat",
+CASE
+  WHEN "data_gpsCoord_lon" = '' THEN 0
+  ELSE "data_gpsCoord_lon"
+ END AS "data_gpsCoord_lon",
+
+"data_description"::text as "data_description",
+
+"data_propertyState"::text(100) as "data_propertyState"  
+
+from "data_realitymix"
+WHERE "data_type"='apartment' OR "data_type"= 'house'
+
+ORDER BY "createdAt"desc;
+
+CREATE OR REPLACE TABLE OUT_REALITYMIX_FINAL AS
+ select
+"id"::text(20) as "id",
+"createdAt"::date as "createdAt",
+"markAsDeadAt_final"::date as "markAsDeadAt",
+"Mesice":: date as "Mesice",
+"Rok"::date as "Rok",
+"Mesice_ukonceno"::date as "Mesice_ukonceno",
+"Rok_ukonceno":: date as "Rok_ukonceno",
+ datediff::int as "Datediff",
+"Den_v_tydnu"::text(10) as "Den_v_tydnu",
+"data_offerType" ::text(20) as "data_offerType",
+"data_type" ::text(20) as "data_type",
+"data_ownership" ::text(20) as "data_ownership",
+"data_subtype"::text(20) as "data_subtype",
+"data_arrangement"::text(20) as "data_arrangement",
+"data_livingArea"::int as "data_livingArea",
+"data_landArea"::int as "data_landArea",
+"data_price"::int as "data_price",
+"data_priceCurrency"::text(20) as "data_priceCurrency",
+"data_priceType"::text(20) as "data_priceType",
+"data_countryCode"::text(20) as "data_countryCode",
+
+"data_district"::text(100) as "data_district",
+"final_adresa"::text(100) as "final_adresa"
+
+from OUT_REALITYMIX
+WHERE "data_type"='apartment' OR "data_type"= 'house'
+ORDER BY "createdAt"desc;
+
+---------
+--HDP
+---------
+
+CREATE OR REPLACE TABLE OUT_HDP
+AS SELECT
+"Obdobi"::date as "Rok",
+"HDP_mld_Kc"::int as "HDP_mld_Kc",
+"HDP"::float(5) as "HDP"
+FROM "in_MD_hdp";
+
+----------------
+--NEZAMÌSTNANOST Y
+----------------
+
+CREATE OR REPLACE TABLE OUT_NEZAMESTNANOST_Y
+AS SELECT
+"Rok"::date AS "Rok",
+"Obecna_mira_nezamestnanosti"::float(5) as "Mira_nezamestnanosti"
+FROM "in_MD_nezamestnanost_y";
+
+-------
+--NEZAMÌSTNANOST Q
+CREATE OR REPLACE TABLE OUT_NEZAMESTNANOST_Q AS
+SELECT 
+"Obecna_mira_nezamestnanosti"::float(2) as "Mira_nezamestnanosti",
+"Od"::date as "Mesic"
+FROM"in_nezamestnanost_q";
+
+-------------------------------------------
+--VYVOJ CEN STAVEBNICH PRACI
+-------------------------------------------
+
+CREATE OR REPLACE TABLE OUT_VYVOJ_CEN_STAVENICH_PRACI
+AS SELECT
+"Obdobi"::DATE as "Obdobi",
+"Index_rustu_2015_jako_100"::FLOAT(5) as "Index_rustu_2015_jako_100"
+FROM "in_MD_vyvoj_cen_stavebnich_praci";
+
+---------------
+--MZDY - ROK
+---------------
+
+CREATE OR REPLACE TABLE OUT_mzdy
+AS SELECT
+"rok"::date as "Rok",
+"Prumerna_mzda"::FLOAT(5) as "Prumerna_mzda"
+FROM "in_MD_mzdy";
+
+------------------
+ --INFLACE
+ ------------------
+
+CREATE OR REPLACE  TABLE out_inflace
+AS SELECT
+"Obdobi"::date as "Mesice",
+"Inflace"::float(5) as "Inflace"
+FROM "in_MD_inflace";
+
+------------------
+ --HYPOINDEX
+ ------------------
+
+
+CREATE OR REPLACE  TABLE out_hypoindex
+AS SELECT
+"mesice"::date as "mesice",
+"urokova_sazba"::float(5) as "urokova_sazba"
+FROM "in_MD_hypoindex";
+
+------------------
+ --DOKONÈENÁ VİSTAVBA - ROK
+ ------------------
+
+CREATE OR REPLACE  TABLE OUT_DOKONCENA_VYSTAVBA
+AS SELECT
+"Rok"::date AS "Rok",
+"Byty_celkem"::int AS "Byty_celkem",
+"Rodinne_domy"::int AS "Rodinne_domy",
+"Bytove_domy"::int AS "Bytove_domy"
+FROM "in_MD_dokoncena_vystavba";
+
+------------------
+ --DEMOGRAFICKA DATA
+ ------------------
+
+CREATE OR REPLACE TABLE OUT_DEMOGRAFICKA_DATA
+AS SELECT
+"Year"::date as "Rok",
+  "Stredni_stav_obyvatel"::int AS "Stredni_stav_obyvatel",
+  "Zive_narozeni"::int AS "Zive_narozeni",
+  "Zemreli"::int AS "Zemreli",
+  "Pristehovali"::int AS "Pristehovali",
+  "Vystehovali"::int AS "Vystehovali",
+  "prirustek_prirozeny"::int AS "Prirustek_prirozeny",
+  "prisrustek_stehovanim"::int AS "Prisrustek_stehovanim",
+  "celkovy_prirustek" ::int AS "Celkovy_prirustek",
+  "snatky"::int AS "Snatky"
+  FROM "in_MD_demograficka_data";
+
+---------------------
+--MILNIKY
+---------------------
+create or replace table out_milniky
+as select
+"Milnik"::text(200) as "Milnik",
+"Datum"::date as "Datum",
+"Hodnota"::int as "Hodnota",
+"Mesic"::date as "Mesic",
+"Rok"::date as "Rok"
+from "in_milniky";
